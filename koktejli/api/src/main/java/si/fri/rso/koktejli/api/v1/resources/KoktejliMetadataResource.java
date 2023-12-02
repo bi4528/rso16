@@ -9,8 +9,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.rso.koktejli.lib.ImageMetadata;
-import si.fri.rso.koktejli.services.beans.ImageMetadataBean;
+import si.fri.rso.koktejli.lib.KoktejliMetadata;
+import si.fri.rso.koktejli.services.beans.KoktejliMetadataBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,15 +25,15 @@ import java.util.logging.Logger;
 
 
 @ApplicationScoped
-@Path("/images")
+@Path("/koktejli")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ImageMetadataResource {
+public class KoktejliMetadataResource {
 
-    private Logger log = Logger.getLogger(ImageMetadataResource.class.getName());
+    private Logger log = Logger.getLogger(KoktejliMetadataResource.class.getName());
 
     @Inject
-    private ImageMetadataBean imageMetadataBean;
+    private KoktejliMetadataBean KoktejliMetadataBean;
 
 
     @Context
@@ -43,15 +43,15 @@ public class ImageMetadataResource {
     @APIResponses({
             @APIResponse(responseCode = "200",
                     description = "List of image metadata",
-                    content = @Content(schema = @Schema(implementation = ImageMetadata.class, type = SchemaType.ARRAY)),
+                    content = @Content(schema = @Schema(implementation = KoktejliMetadata.class, type = SchemaType.ARRAY)),
                     headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
             )})
     @GET
-    public Response getImageMetadata() {
+    public Response getKoktejliMetadata() {
 
-        List<ImageMetadata> imageMetadata = imageMetadataBean.getImageMetadataFilter(uriInfo);
+        List<KoktejliMetadata> KoktejliMetadata = KoktejliMetadataBean.getKoktejliMetadataFilter(uriInfo);
 
-        return Response.status(Response.Status.OK).entity(imageMetadata).build();
+        return Response.status(Response.Status.OK).entity(KoktejliMetadata).build();
     }
 
 
@@ -60,20 +60,20 @@ public class ImageMetadataResource {
             @APIResponse(responseCode = "200",
                     description = "Image metadata",
                     content = @Content(
-                            schema = @Schema(implementation = ImageMetadata.class))
+                            schema = @Schema(implementation = KoktejliMetadata.class))
             )})
     @GET
-    @Path("/{imageMetadataId}")
-    public Response getImageMetadata(@Parameter(description = "Metadata ID.", required = true)
-                                     @PathParam("imageMetadataId") Integer imageMetadataId) {
+    @Path("/{KoktejliMetadataId}")
+    public Response getKoktejliMetadata(@Parameter(description = "Metadata ID.", required = true)
+                                     @PathParam("KoktejliMetadataId") Integer KoktejliMetadataId) {
 
-        ImageMetadata imageMetadata = imageMetadataBean.getImageMetadata(imageMetadataId);
+        KoktejliMetadata KoktejliMetadata = KoktejliMetadataBean.getKoktejliMetadata(KoktejliMetadataId);
 
-        if (imageMetadata == null) {
+        if (KoktejliMetadata == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.status(Response.Status.OK).entity(imageMetadata).build();
+        return Response.status(Response.Status.OK).entity(KoktejliMetadata).build();
     }
 
     @Operation(description = "Add image metadata.", summary = "Add metadata")
@@ -84,19 +84,19 @@ public class ImageMetadataResource {
             @APIResponse(responseCode = "405", description = "Validation error .")
     })
     @POST
-    public Response createImageMetadata(@RequestBody(
+    public Response createKoktejliMetadata(@RequestBody(
             description = "DTO object with image metadata.",
             required = true, content = @Content(
-            schema = @Schema(implementation = ImageMetadata.class))) ImageMetadata imageMetadata) {
+            schema = @Schema(implementation = KoktejliMetadata.class))) KoktejliMetadata KoktejliMetadata) {
 
-        if ((imageMetadata.getTitle() == null || imageMetadata.getDescription() == null || imageMetadata.getUri() == null)) {
+        if ((KoktejliMetadata.getTitle() == null || KoktejliMetadata.getDescription() == null || KoktejliMetadata.getUri() == null)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
-            imageMetadata = imageMetadataBean.createImageMetadata(imageMetadata);
+            KoktejliMetadata = KoktejliMetadataBean.createKoktejliMetadata(KoktejliMetadata);
         }
 
-        return Response.status(Response.Status.CONFLICT).entity(imageMetadata).build();
+        return Response.status(Response.Status.CONFLICT).entity(KoktejliMetadata).build();
 
     }
 
@@ -109,18 +109,18 @@ public class ImageMetadataResource {
             )
     })
     @PUT
-    @Path("{imageMetadataId}")
-    public Response putImageMetadata(@Parameter(description = "Metadata ID.", required = true)
-                                     @PathParam("imageMetadataId") Integer imageMetadataId,
+    @Path("{KoktejliMetadataId}")
+    public Response putKoktejliMetadata(@Parameter(description = "Metadata ID.", required = true)
+                                     @PathParam("KoktejliMetadataId") Integer KoktejliMetadataId,
                                      @RequestBody(
                                              description = "DTO object with image metadata.",
                                              required = true, content = @Content(
-                                             schema = @Schema(implementation = ImageMetadata.class)))
-                                             ImageMetadata imageMetadata){
+                                             schema = @Schema(implementation = KoktejliMetadata.class)))
+                                             KoktejliMetadata KoktejliMetadata){
 
-        imageMetadata = imageMetadataBean.putImageMetadata(imageMetadataId, imageMetadata);
+        KoktejliMetadata = KoktejliMetadataBean.putKoktejliMetadata(KoktejliMetadataId, KoktejliMetadata);
 
-        if (imageMetadata == null) {
+        if (KoktejliMetadata == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -140,11 +140,11 @@ public class ImageMetadataResource {
             )
     })
     @DELETE
-    @Path("{imageMetadataId}")
-    public Response deleteImageMetadata(@Parameter(description = "Metadata ID.", required = true)
-                                        @PathParam("imageMetadataId") Integer imageMetadataId){
+    @Path("{KoktejliMetadataId}")
+    public Response deleteKoktejliMetadata(@Parameter(description = "Metadata ID.", required = true)
+                                        @PathParam("KoktejliMetadataId") Integer KoktejliMetadataId){
 
-        boolean deleted = imageMetadataBean.deleteImageMetadata(imageMetadataId);
+        boolean deleted = KoktejliMetadataBean.deleteKoktejliMetadata(KoktejliMetadataId);
 
         if (deleted) {
             return Response.status(Response.Status.NO_CONTENT).build();

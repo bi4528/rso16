@@ -2,7 +2,7 @@ package si.fri.rso.koktejli.lib;
 
 import java.time.Instant;
 
-public class ImageMetadata {
+public class KoktejliMetadata {
 
     private Integer imageId;
     private String title;

@@ -1,13 +1,13 @@
 package si.fri.rso.koktejli.models.converters;
 
-import si.fri.rso.koktejli.lib.ImageMetadata;
-import si.fri.rso.koktejli.models.entities.ImageMetadataEntity;
+import si.fri.rso.koktejli.lib.KoktejliMetadata;
+import si.fri.rso.koktejli.models.entities.KoktejliMetadataEntity;
 
-public class ImageMetadataConverter {
+public class KoktejliMetadataConverter {
 
-    public static ImageMetadata toDto(ImageMetadataEntity entity) {
+    public static KoktejliMetadata toDto(KoktejliMetadataEntity entity) {
 
-        ImageMetadata dto = new ImageMetadata();
+        KoktejliMetadata dto = new KoktejliMetadata();
         dto.setImageId(entity.getId());
         dto.setCreated(entity.getCreated());
         dto.setDescription(entity.getDescription());
@@ -20,9 +20,9 @@ public class ImageMetadataConverter {
 
     }
 
-    public static ImageMetadataEntity toEntity(ImageMetadata dto) {
+    public static KoktejliMetadataEntity toEntity(KoktejliMetadata dto) {
 
-        ImageMetadataEntity entity = new ImageMetadataEntity();
+        KoktejliMetadataEntity entity = new KoktejliMetadataEntity();
         entity.setCreated(dto.getCreated());
         entity.setDescription(dto.getDescription());
         entity.setTitle(dto.getTitle());

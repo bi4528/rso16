@@ -15,6 +15,6 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
         license = @License(name = "dev"), description = "API for managing image metadata."),
         servers = @Server(url = "http://localhost:8080/"))
 @ApplicationPath("/v1")
-public class ImageMetadataApplication extends Application {
+public class KoktejliMetadataApplication extends Application {
 
 }

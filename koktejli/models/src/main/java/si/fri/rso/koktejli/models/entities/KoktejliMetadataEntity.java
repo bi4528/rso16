@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "image_metadata")
+@Table(name = "koktejli_metadata")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "ImageMetadataEntity.getAll",
-                        query = "SELECT im FROM ImageMetadataEntity im")
+                @NamedQuery(name = "KoktejliMetadataEntity.getAll",
+                        query = "SELECT im FROM KoktejliMetadataEntity im")
         })
-public class ImageMetadataEntity {
+public class KoktejliMetadataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

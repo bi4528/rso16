@@ -1,5 +1,5 @@
 kumuluzee:
-  name: image-catalog-service
+  name: koktejli-service
   env:
     name: dev
   version: 1.0.0
@@ -8,8 +8,10 @@ kumuluzee:
     http:
       port: 8080
   datasources:
-    - jndi-name: jdbc/ImageMetadataDS
-      connection-url: jdbc:postgresql://localhost:5432/image-metadata
+    - jndi-name: jdbc/KoktejliMetadataDS
+      connection-url: jdbc:postgresql://localhost:5432/koktejli-metadata
       username: dbuser
       password: postgres
       max-pool-size: 20
+      # pool:
+      # max-size: 4
