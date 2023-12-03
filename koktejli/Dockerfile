@@ -1,4 +1,5 @@
-FROM adoptopenjdk:15-jre-hotspot
+#FROM adoptopenjdk:15-jre-hotspot
+FROM eclipse-temurin:17-jre
 
 RUN mkdir /app
 

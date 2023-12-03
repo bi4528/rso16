@@ -12,6 +12,6 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5432/koktejli-metadata
       username: dbuser
       password: postgres
-      max-pool-size: 20
-      # pool:
-      # max-size: 4
+      #max-pool-size: 20
+      pool:
+       max-size: 4
