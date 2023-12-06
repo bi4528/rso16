@@ -12,6 +12,17 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5432/koktejli-metadata
       username: dbuser
       password: postgres
-      #max-pool-size: 20
+      #max-pool-size: 4
       pool:
        max-size: 4
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/KoktejliMetadataDS
+    metrics:
+      web-instrumentation:
+        - name: koktejli-endpoint
+          url-pattern: /v1/koktejli/*
+  rest-properties:
+    broken: false

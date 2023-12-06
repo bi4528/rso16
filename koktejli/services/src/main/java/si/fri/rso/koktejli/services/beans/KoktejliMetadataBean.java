@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
+import org.eclipse.microprofile.metrics.annotation.Timed;
+
 import si.fri.rso.koktejli.lib.KoktejliMetadata;
 import si.fri.rso.koktejli.models.converters.KoktejliMetadataConverter;
 import si.fri.rso.koktejli.models.entities.KoktejliMetadataEntity;
