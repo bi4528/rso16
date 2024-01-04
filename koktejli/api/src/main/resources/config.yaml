@@ -17,9 +17,9 @@ kumuluzee:
        max-size: 4
   health:
     checks:
-      data-source-health-check:
-        type: liveness
-        jndi-name: jdbc/KoktejliMetadataDS
+#      data-source-health-check:
+#        type: liveness
+#        jndi-name: jdbc/KoktejliMetadataDS
     metrics:
       web-instrumentation:
         - name: koktejli-endpoint
