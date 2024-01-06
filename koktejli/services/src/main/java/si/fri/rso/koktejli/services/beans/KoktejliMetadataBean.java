@@ -10,16 +10,23 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
-import org.eclipse.microprofile.metrics.annotation.Timed;
-
+import si.fri.rso.koktejli.lib.CocktailDBResponse;
 import si.fri.rso.koktejli.lib.KoktejliMetadata;
 import si.fri.rso.koktejli.models.converters.KoktejliMetadataConverter;
 import si.fri.rso.koktejli.models.entities.KoktejliMetadataEntity;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.io.IOException;
 
+@Log
 @RequestScoped
 public class KoktejliMetadataBean {
 
@@ -59,6 +66,71 @@ public class KoktejliMetadataBean {
         KoktejliMetadata KoktejliMetadata = KoktejliMetadataConverter.toDto(KoktejliMetadataEntity);
 
         return KoktejliMetadata;
+    }
+
+    public CocktailDBResponse getCocktailDBResponseByName(String name) {
+        HttpClient client = HttpClient.newHttpClient();
+        String url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + name;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            CocktailDBResponse cocktailDBResponse = parseCocktailDBResponse(response.body());
+
+            if (cocktailDBResponse == null) {
+                throw new NotFoundException();
+            }
+
+            return cocktailDBResponse;
+
+        } catch (IOException | InterruptedException e) {
+            log.severe("Error while getting cocktailDBResponse: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public CocktailDBResponse getCocktailDBResponseById(String id) {
+        HttpClient client = HttpClient.newHttpClient();
+        String url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            CocktailDBResponse cocktailDBResponse = parseCocktailDBResponse(response.body());
+
+            if (cocktailDBResponse == null) {
+                throw new NotFoundException();
+            }
+
+            return cocktailDBResponse;
+
+        } catch (IOException | InterruptedException e) {
+            log.severe("Error while getting cocktailDBResponse: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private CocktailDBResponse parseCocktailDBResponse(String jsonResponse) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            CocktailDBResponse response = objectMapper.readValue(jsonResponse, CocktailDBResponse.class);
+            if (response != null && response.getDrinks() != null && !response.getDrinks().isEmpty()) {
+                return response;
+            }
+        } catch (Exception e) {
+            log.severe("Error while parsing cocktailDBResponse: " + e.getMessage());
+        }
+        return null;
     }
 
     public KoktejliMetadata createKoktejliMetadata(KoktejliMetadata KoktejliMetadata) {

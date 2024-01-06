@@ -1,5 +1,6 @@
 package si.fri.rso.koktejli.api.v1.resources;
 
+import com.kumuluz.ee.logs.cdi.Log;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -9,6 +10,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import si.fri.rso.koktejli.lib.CocktailDBResponse;
 import si.fri.rso.koktejli.lib.KoktejliMetadata;
 import si.fri.rso.koktejli.services.beans.KoktejliMetadataBean;
 
@@ -24,6 +26,7 @@ import java.util.logging.Logger;
 
 
 
+@Log
 @ApplicationScoped
 @Path("/koktejli")
 @Produces(MediaType.APPLICATION_JSON)
@@ -76,6 +79,48 @@ public class KoktejliMetadataResource {
         return Response.status(Response.Status.OK).entity(KoktejliMetadata).build();
     }
 
+    @Operation(description = "Get list of multiple cocktails for a cocktail by name.",
+            summary = "Get list of multiple cocktails for a cocktail by name.")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "List of multiple cocktails by name.",
+                    content = @Content(
+                            schema = @Schema(implementation = CocktailDBResponse.class))
+            )})
+    @GET
+    @Path("/name/{CocktailDBName}")
+    public Response getCocktailDBResponseByName(@Parameter(description = "Cocktail name.", required = true)
+                                        @PathParam("CocktailDBName") String CocktailDBName) {
+
+        CocktailDBResponse cocktailDBResponse = KoktejliMetadataBean.getCocktailDBResponseByName(CocktailDBName);
+
+        if (cocktailDBResponse == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(cocktailDBResponse).build();
+    }
+    @Operation(description = "Get a singleton list of a cocktail by id.",
+            summary = "Get a singleton list of a cocktail by id.")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Singleton list of cocktail by id.",
+                    content = @Content(
+                            schema = @Schema(implementation = CocktailDBResponse.class))
+            )})
+    @GET
+    @Path("/id/{CocktailDBId}")
+    public Response getCocktailDBResponseById(@Parameter(description = "Cocktail id.", required = true)
+                                          @PathParam("CocktailDBId") String CocktailDBId) {
+
+        CocktailDBResponse cocktailDBResponse = KoktejliMetadataBean.getCocktailDBResponseById(CocktailDBId);
+
+        if (cocktailDBResponse == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(cocktailDBResponse).build();
+    }
     @Operation(description = "Add image metadata.", summary = "Add metadata")
     @APIResponses({
             @APIResponse(responseCode = "201",
