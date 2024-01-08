@@ -17,32 +17,26 @@ spec:
           name: seznam
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://ella.db.elephantsql.com:5432/eqoftvqn
+              value: jdbc:postgresql://dumbo.db.elephantsql.com/lwfzuude
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               valueFrom: #use Kubernetes secret for storing the password
                 secretKeyRef:
-                  name: db-elephant-pass
+                  name: db-seznam-pass
                   key: username
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               valueFrom: #use Kubernetes secret for storing the password
                 secretKeyRef:
-                  name: db-elephant-pass
+                  name: db-seznam-pass
                   key: password
+            - name: SEZNAM_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: seznam-config
+                  key: SEZNAM_SERVICE_URL
           ports:
             - containerPort: 8080
               name: server
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: server
-            initialDelaySeconds: 20
-            periodSeconds: 3
-          readinessProbe:
-            httpGet:
-              path: /health/ready
-              port: server
-            initialDelaySeconds: 20
-            periodSeconds: 3
+#
 ---
 
 apiVersion: v1
@@ -50,7 +44,7 @@ kind: Service
 metadata:
   name: seznam
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8080
       protocol: TCP

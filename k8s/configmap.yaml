@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: koktejli-config
+data:
+  KOKTEJLI_SERVICE_URL: "http://koktejli:8080/v1/koktejli"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seznam-config
+data:
+  SEZNAM_SERVICE_URL: "http://seznam:8080/v1/seznam"

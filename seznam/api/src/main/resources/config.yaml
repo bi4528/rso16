@@ -12,18 +12,18 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5433/seznam-metadata
       username: dbuser
       password: postgres
-      #max-pool-size: 4
+#      max-pool-size: 4
       pool:
        max-size: 4
-  health:
-    checks:
+#  health:
+#    checks:
 #      data-source-health-check:
 #        type: liveness
 #        jndi-name: jdbc/SeznamMetadataDS
-    metrics:
-      web-instrumentation:
-        - name: seznam-endpoint
-          url-pattern: /v1/seznam/*
+#    metrics:
+#      web-instrumentation:
+#        - name: seznam-endpoint
+#          url-pattern: /v1/seznam/*
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>
                               <Configuration name="comments">

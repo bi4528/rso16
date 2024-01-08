@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: moj.koktejli.com
+      http:
+        paths:
+          - path: /koktejli(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: koktejli-service
+                port:
+                  number: 8080
+          - path: /seznam(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: seznam-service
+                port:
+                  number: 8081
