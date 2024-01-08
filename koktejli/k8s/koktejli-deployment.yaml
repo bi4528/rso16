@@ -28,26 +28,10 @@ spec:
                 secretKeyRef:
                   name: db-elephant-pass
                   key: password
-            - name: KOKTEJLI_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: koktejli-config
-                  key: KOKTEJLI_SERVICE_URL
           ports:
             - containerPort: 8080
               name: server
-#          livenessProbe:
-#            httpGet:
-#              path: /health/live
-#              port: server
-#            initialDelaySeconds: 20
-#            periodSeconds: 3
-#          readinessProbe:
-#            httpGet:
-#              path: /health/ready
-#              port: server
-#            initialDelaySeconds: 20
-#            periodSeconds: 3
+
 ---
 
 apiVersion: v1
@@ -55,7 +39,7 @@ kind: Service
 metadata:
   name: koktejli
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8080
       protocol: TCP
