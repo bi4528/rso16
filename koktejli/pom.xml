@@ -27,6 +27,8 @@
         <kumuluzee-openapi-mp.version>1.4.0</kumuluzee-openapi-mp.version>
         <kumuluzee-config-mp.version>2.0.0</kumuluzee-config-mp.version>
         <postgresql.version>42.5.0</postgresql.version>
+        <kumuluzee-logs.version>1.4.6</kumuluzee-logs.version>
+        <kumuluzee-cors.version>2.0.0</kumuluzee-cors.version>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +91,16 @@
                 <groupId>si.fri.rso.koktejli</groupId>
                 <artifactId>koktejli-lib</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>kumuluzee-logs-log4j2</artifactId>
+                <groupId>com.kumuluz.ee.logs</groupId>
+                <version>${kumuluzee-logs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.cors</groupId>
+                <artifactId>kumuluzee-cors</artifactId>
+                <version>${kumuluzee-cors.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

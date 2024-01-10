@@ -9,5 +9,5 @@ FROM eclipse-temurin:17-jre
 RUN mkdir /app
 WORKDIR /app
 COPY --from=build ./app/api/target/seznam-api-1.0.0-SNAPSHOT.jar /app
-EXPOSE 8081
+EXPOSE 8080
 CMD ["java", "-jar", "seznam-api-1.0.0-SNAPSHOT.jar"]

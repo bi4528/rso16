@@ -28,11 +28,11 @@ spec:
                 secretKeyRef:
                   name: db-seznam-pass
                   key: password
-            - name: SEZNAM_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: seznam-config
-                  key: SEZNAM_SERVICE_URL
+#            - name: KOKTEJLI_SERVICE_URL
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: koktejli-config
+#                  key: KOKTEJLI_SERVICE_URL
           ports:
             - containerPort: 8080
               name: server
@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: seznam
+  name: seznam-service
 spec:
   type: ClusterIP
   ports:

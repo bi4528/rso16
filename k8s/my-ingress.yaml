@@ -9,8 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: moj.koktejli.com
-      http:
+    - http:
         paths:
           - path: /koktejli(/|$)(.*)
             pathType: ImplementationSpecific
@@ -25,4 +24,4 @@ spec:
               service:
                 name: seznam-service
                 port:
-                  number: 8081
+                  number: 8080

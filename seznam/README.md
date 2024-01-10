@@ -3,7 +3,7 @@
 ## Prerequisites
 
 ```bash
-docker run -d --name pg-seznam-metadata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=seznam-metadata -p 5433:5432 postgres:13
+docker run -d --name pg-seznam-metadata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=seznam-metadata -p 5432:5432 postgres:13
 ```
 
 ## Build and run commands
@@ -12,7 +12,7 @@ mvn clean package
 cd api/target
 java -jar seznam-api-1.0.0-SNAPSHOT.jar
 ```
-Available at: localhost:8081/v1/seznam
+Available at: localhost:8080/v1/seznam
 
 ## Docker commands
 ```bash
