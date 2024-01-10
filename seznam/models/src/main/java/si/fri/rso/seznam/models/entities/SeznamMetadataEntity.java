@@ -8,7 +8,9 @@ import javax.persistence.*;
 @NamedQueries(value =
         {
                 @NamedQuery(name = "SeznamMetadataEntity.getAll",
-                        query = "SELECT im FROM SeznamMetadataEntity im")
+                        query = "SELECT im FROM SeznamMetadataEntity im"),
+                @NamedQuery(name = "SeznamMetadataEntity.getUsers",
+                        query = "SELECT DISTINCT im.user FROM SeznamMetadataEntity im")
         })
 public class SeznamMetadataEntity {
 

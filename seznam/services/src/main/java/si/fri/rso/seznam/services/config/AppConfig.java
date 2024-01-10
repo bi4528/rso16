@@ -16,12 +16,8 @@ public class AppConfig {
         log.info("Poskusam prebrati okoljsko spremenljivko KOKTEJLI_SERVICE_URL");
         // Poskusite prebrati okoljsko spremenljivko
         //koktejliServiceUrl = System.getenv("KOKTEJLI_SERVICE_URL");
-        koktejliServiceUrl = null;
-
-        // Če okoljska spremenljivka ni nastavljena, preberite iz .env datoteke
-        if (koktejliServiceUrl == null) {
-            koktejliServiceUrl = "http://koktejli-service:8080/v1/koktejli";
-        }
+        koktejliServiceUrl = "http://koktejli-service:8080/v1/koktejli";
+//        koktejliServiceUrl = "http://localhost:8080/v1/koktejli";
         log.info("Koktejli service URL: " + koktejliServiceUrl);
     }
 

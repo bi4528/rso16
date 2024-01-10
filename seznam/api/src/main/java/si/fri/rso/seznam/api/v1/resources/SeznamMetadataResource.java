@@ -58,6 +58,23 @@ public class SeznamMetadataResource {
         return Response.status(Response.Status.OK).entity(SeznamMetadata).build();
     }
 
+    @Operation(description = "Get cocktail list by user.", summary = "Get cocktail list by user.")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "List of cocktails by user",
+                    content = @Content(schema = @Schema(implementation = SeznamMetadata.class, type = SchemaType.ARRAY)),
+                    headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
+            )})
+    @GET
+    @Path("/user/{user}")
+    public Response getSeznamMetadataByUser(@Parameter(description = "User name.", required = true)
+                                                @PathParam("user") String user) {
+
+        List<SeznamMetadata> SeznamMetadata = SeznamMetadataBean.getSeznamMetadataByUser(user);
+
+        return Response.status(Response.Status.OK).entity(SeznamMetadata).build();
+    }
+
 
     @Operation(description = "Get metadata for an image.", summary = "Get metadata for an image")
     @APIResponses({
@@ -181,8 +198,21 @@ public class SeznamMetadataResource {
         }
     }
 
+    @Operation(description = "Get all users.", summary = "Get all users ")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "List of all users",
+                    content = @Content(schema = @Schema(implementation = String.class, type = SchemaType.ARRAY)),
+                    headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
+            )})
+    @GET
+    @Path("/users")
+    public Response getUsers() {
 
+        List<String> users = SeznamMetadataBean.getUsers();
 
+        return Response.status(Response.Status.OK).entity(users).build();
+    }
 
 
 }

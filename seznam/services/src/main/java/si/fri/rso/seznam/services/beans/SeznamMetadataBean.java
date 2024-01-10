@@ -51,6 +51,15 @@ public class SeznamMetadataBean {
 
     }
 
+    public List<String> getUsers() {
+        TypedQuery<String> query = em.createNamedQuery(
+                "SeznamMetadataEntity.getUsers", String.class);
+
+        List<String> resultList = query.getResultList();
+
+        return resultList;
+    }
+
     public List<SeznamMetadata> getSeznamMetadataFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
@@ -72,18 +81,20 @@ public class SeznamMetadataBean {
 
         return SeznamMetadata;
     }
-    public SeznamMetadata getSeznamMetadataByUser(String user) {
+    public List<SeznamMetadata> getSeznamMetadataByUser(String user) {
+        TypedQuery<SeznamMetadataEntity> query = em.createQuery(
+                "SELECT s FROM SeznamMetadataEntity s WHERE s.user = :user", SeznamMetadataEntity.class);
+        query.setParameter("user", user);
 
-        SeznamMetadataEntity SeznamMetadataEntity = em.find(SeznamMetadataEntity.class, user);
+        List<SeznamMetadataEntity> resultList = query.getResultList();
 
-        if (SeznamMetadataEntity == null) {
+        if (resultList.isEmpty()) {
             throw new NotFoundException();
         }
 
-        SeznamMetadata SeznamMetadata = SeznamMetadataConverter.toDto(SeznamMetadataEntity);
-
-        return SeznamMetadata;
+        return resultList.stream().map(SeznamMetadataConverter::toDto).collect(Collectors.toList());
     }
+
 
     public CocktailDBResponse getCocktailDBResponseById(String id) {
         HttpClient client = HttpClient.newHttpClient();
