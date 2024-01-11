@@ -22,9 +22,10 @@ kumuluzee:
       - seznam-lib
   openapi-mp:
     ui:
-      server-auto-config:
-        enabled: true
-        original-uri-check: true
+      specification-server: http://34.89.140.13/seznam/
+#      server-auto-config:
+#        enabled: true
+#        original-uri-check: true
   health:
     checks:
 #      data-source-health-check:
