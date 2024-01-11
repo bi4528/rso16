@@ -26,9 +26,9 @@ public class DemoResource {
     @POST
     @Path("break")
     public Response makeUnhealthy() {
-
+        log.info("Setting service to unhealthy.");
         restProperties.setBroken(true);
-
+        log.info("Service is now: " + restProperties.getBroken());
         return Response.status(Response.Status.OK).build();
     }
 }
