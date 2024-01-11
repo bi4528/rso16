@@ -16,10 +16,13 @@ kumuluzee:
       pool:
        max-size: 4
   health:
-#    checks:
+    checks:
 #      data-source-health-check:
 #        type: liveness
 #        jndi-name: jdbc/SeznamMetadataDS
+        disk-space-health-check:
+          threshold: 100000000
+          type: liveness
     metrics:
       web-instrumentation:
         - name: seznam-endpoint
