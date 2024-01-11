@@ -31,7 +31,18 @@ spec:
           ports:
             - containerPort: 8080
               name: server
-#
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 60
+            periodSeconds: 30
 ---
 
 apiVersion: v1

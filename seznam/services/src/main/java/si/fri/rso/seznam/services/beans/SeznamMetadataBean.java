@@ -15,6 +15,8 @@ import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import si.fri.rso.seznam.lib.CocktailDBResponse;
 import si.fri.rso.seznam.lib.CocktailDB;
 import si.fri.rso.seznam.lib.SeznamMetadata;
@@ -59,6 +61,7 @@ public class SeznamMetadataBean {
 
         return resultList;
     }
+
 
     public List<SeznamMetadata> getSeznamMetadataFilter(UriInfo uriInfo) {
 
@@ -135,6 +138,8 @@ public class SeznamMetadataBean {
         return null;
     }
 
+    @Timed(name = "add_to_favourites_timer")
+    @Counted(name = "add_to_favourites_counter")
     public SeznamMetadata createSeznamMetadata(Integer id, String user) {
 
         CocktailDBResponse cocktailDBResponse = getCocktailDBResponseById(Integer.toString(id));

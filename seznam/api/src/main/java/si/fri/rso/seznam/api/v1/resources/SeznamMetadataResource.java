@@ -43,18 +43,18 @@ public class SeznamMetadataResource {
     @Context
     protected UriInfo uriInfo;
 
-    @Operation(description = "Get all image metadata.", summary = "Get all metadata")
+    @Operation(description = "Get all cocktails.", summary = "Get all cocktails.")
     @APIResponses({
             @APIResponse(responseCode = "200",
-                    description = "List of image metadata",
+                    description = "List of all cocktails.",
                     content = @Content(schema = @Schema(implementation = SeznamMetadata.class, type = SchemaType.ARRAY)),
                     headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
             )})
     @GET
     public Response getSeznamMetadata() {
-
+        log.info("Trying to get all cocktails.");
         List<SeznamMetadata> SeznamMetadata = SeznamMetadataBean.getSeznamMetadataFilter(uriInfo);
-
+        log.info("Returning all cocktails.");
         return Response.status(Response.Status.OK).entity(SeznamMetadata).build();
     }
 
@@ -69,17 +69,17 @@ public class SeznamMetadataResource {
     @Path("/user/{user}")
     public Response getSeznamMetadataByUser(@Parameter(description = "User name.", required = true)
                                                 @PathParam("user") String user) {
-
+        log.info("Trying to get cocktails for user " + user + ".");
         List<SeznamMetadata> SeznamMetadata = SeznamMetadataBean.getSeznamMetadataByUser(user);
-
+        log.info("Returning cocktails for user " + user + ".");
         return Response.status(Response.Status.OK).entity(SeznamMetadata).build();
     }
 
 
-    @Operation(description = "Get metadata for an image.", summary = "Get metadata for an image")
+    @Operation(description = "Get cocktail by db id.", summary = "Get cocktail by db id.")
     @APIResponses({
             @APIResponse(responseCode = "200",
-                    description = "Image metadata",
+                    description = "Cocktail metadata",
                     content = @Content(
                             schema = @Schema(implementation = SeznamMetadata.class))
             )})
@@ -87,13 +87,14 @@ public class SeznamMetadataResource {
     @Path("/{SeznamMetadataId}")
     public Response getSeznamMetadata(@Parameter(description = "Metadata ID.", required = true)
                                      @PathParam("SeznamMetadataId") Integer SeznamMetadataId) {
-
+        log.info("Trying to get cocktail with id " + SeznamMetadataId + ".");
         SeznamMetadata SeznamMetadata = SeznamMetadataBean.getSeznamMetadata(SeznamMetadataId);
 
         if (SeznamMetadata == null) {
+            log.info("Cocktail with id " + SeznamMetadataId + " not found.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        log.info("Returning cocktail with id " + SeznamMetadataId + ".");
         return Response.status(Response.Status.OK).entity(SeznamMetadata).build();
     }
 
@@ -109,19 +110,20 @@ public class SeznamMetadataResource {
     @Path("/id/{CocktailDBId}")
     public Response getCocktailDBResponseById(@Parameter(description = "Cocktail id.", required = true)
                                           @PathParam("CocktailDBId") String CocktailDBId) {
-
+        log.info("Trying to get cocktail with id " + CocktailDBId + ".");
         CocktailDBResponse cocktailDBResponse = SeznamMetadataBean.getCocktailDBResponseById(CocktailDBId);
 
         if (cocktailDBResponse == null) {
+            log.info("Cocktail with id " + CocktailDBId + " not found.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        log.info("Returning cocktail with id " + CocktailDBId + ".");
         return Response.status(Response.Status.OK).entity(cocktailDBResponse).build();
     }
-    @Operation(description = "Add image metadata.", summary = "Add metadata")
+    @Operation(description = "Add cocktail.", summary = "Add cocktail.")
     @APIResponses({
             @APIResponse(responseCode = "201",
-                    description = "Metadata successfully added."
+                    description = "cocktail successfully added."
             ),
             @APIResponse(responseCode = "405", description = "Validation error .")
     })
@@ -131,25 +133,28 @@ public class SeznamMetadataResource {
             required = true, content = @Content(
             schema = @Schema(implementation = SeznamMetadataRequest.class))) SeznamMetadataRequest seznamMetadataRequest) {
 
+        log.info("Trying to add cocktail for request " + seznamMetadataRequest.toString() + ".");
+
         SeznamMetadata seznamMetadata;
 
         if ((seznamMetadataRequest.getCocktailId() == null || seznamMetadataRequest.getUser() == null)) {
+            log.info("Validation error for request " + seznamMetadataRequest.toString() + ".");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
             seznamMetadata = SeznamMetadataBean.createSeznamMetadata(seznamMetadataRequest.getCocktailId(), seznamMetadataRequest.getUser());
         }
-
+        log.info("Returning cocktail "+ seznamMetadata.toString() + "for request " + seznamMetadataRequest.toString() + ".");
         return Response.status(Response.Status.CREATED).entity(seznamMetadata).build();
 
     }
 
 
-    @Operation(description = "Update metadata for an image.", summary = "Update metadata")
+    @Operation(description = "Update cocktail for an image.", summary = "Update cocktail")
     @APIResponses({
             @APIResponse(
                     responseCode = "200",
-                    description = "Metadata successfully updated."
+                    description = "Cocktail successfully updated."
             )
     })
     @PUT
@@ -161,22 +166,23 @@ public class SeznamMetadataResource {
                                              required = true, content = @Content(
                                              schema = @Schema(implementation = SeznamMetadata.class)))
                                              SeznamMetadata SeznamMetadata){
-
+        log.info("Trying to update cocktail with id " + SeznamMetadataId + ".");
         SeznamMetadata = SeznamMetadataBean.putSeznamMetadata(SeznamMetadataId, SeznamMetadata);
 
         if (SeznamMetadata == null) {
+            log.info("Cocktail with id " + SeznamMetadataId + " not found.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        log.info("Returning cocktail with id " + SeznamMetadataId + ".");
         return Response.status(Response.Status.NOT_MODIFIED).build();
 
     }
 
-    @Operation(description = "Delete metadata for an image.", summary = "Delete metadata")
+    @Operation(description = "Delete cocktail from a list.", summary = "Delete cocktail")
     @APIResponses({
             @APIResponse(
                     responseCode = "200",
-                    description = "Metadata successfully deleted."
+                    description = "Cocktail successfully deleted."
             ),
             @APIResponse(
                     responseCode = "404",
@@ -187,18 +193,20 @@ public class SeznamMetadataResource {
     @Path("{SeznamMetadataId}")
     public Response deleteSeznamMetadata(@Parameter(description = "Metadata ID.", required = true)
                                         @PathParam("SeznamMetadataId") Integer SeznamMetadataId){
-
+        log.info("Trying to delete cocktail with id " + SeznamMetadataId + ".");
         boolean deleted = SeznamMetadataBean.deleteSeznamMetadata(SeznamMetadataId);
 
         if (deleted) {
+            log.info("Cocktail with id " + SeznamMetadataId + " deleted.");
             return Response.status(Response.Status.NO_CONTENT).build();
         }
         else {
+            log.info("Cocktail with id " + SeznamMetadataId + " not found.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
-    @Operation(description = "Get all users.", summary = "Get all users ")
+    @Operation(description = "Get all users.", summary = "Get all users")
     @APIResponses({
             @APIResponse(responseCode = "200",
                     description = "List of all users",
@@ -208,9 +216,9 @@ public class SeznamMetadataResource {
     @GET
     @Path("/users")
     public Response getUsers() {
-
+        log.info("Trying to get all users.");
         List<String> users = SeznamMetadataBean.getUsers();
-
+        log.info("Returning all users.");
         return Response.status(Response.Status.OK).entity(users).build();
     }
 
