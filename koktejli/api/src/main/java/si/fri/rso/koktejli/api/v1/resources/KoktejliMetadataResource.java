@@ -91,13 +91,14 @@ public class KoktejliMetadataResource {
     @Path("/name/{CocktailDBName}")
     public Response getCocktailDBResponseByName(@Parameter(description = "Cocktail name.", required = true)
                                         @PathParam("CocktailDBName") String CocktailDBName) {
-
+        log.info("Trying to get cocktails by name: " + CocktailDBName);
         CocktailDBResponse cocktailDBResponse = KoktejliMetadataBean.getCocktailDBResponseByName(CocktailDBName);
 
         if (cocktailDBResponse == null) {
+            log.info("Cocktail by name: " + CocktailDBName + " not found.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        log.info("Cocktail by name: " + CocktailDBName + " found.");
         return Response.status(Response.Status.OK).entity(cocktailDBResponse).build();
     }
     @Operation(description = "Get a singleton list of a cocktail by id.",
@@ -112,13 +113,14 @@ public class KoktejliMetadataResource {
     @Path("/id/{CocktailDBId}")
     public Response getCocktailDBResponseById(@Parameter(description = "Cocktail id.", required = true)
                                           @PathParam("CocktailDBId") String CocktailDBId) {
-
+        log.info("Trying to get cocktail by id: " + CocktailDBId);
         CocktailDBResponse cocktailDBResponse = KoktejliMetadataBean.getCocktailDBResponseById(CocktailDBId);
 
         if (cocktailDBResponse == null) {
+            log.info("Cocktail by id: " + CocktailDBId + " not found.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
+        log.info("Cocktail by id: " + CocktailDBId + " found.");
         return Response.status(Response.Status.OK).entity(cocktailDBResponse).build();
     }
     @Operation(description = "Add image metadata.", summary = "Add metadata")

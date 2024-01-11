@@ -13,7 +13,7 @@ spec:
         app: seznam
     spec:
       containers:
-        - image: bi4528/seznam-slika:2024-01-11-19-33-46 #to be changed
+        - image: bi4528/seznam-slika:2024-01-11-19-44-54 #to be changed
           name: seznam
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
