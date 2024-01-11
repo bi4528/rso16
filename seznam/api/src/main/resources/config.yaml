@@ -22,7 +22,9 @@ kumuluzee:
       - seznam-lib
   openapi-mp:
     ui:
-      specification-server: http://34.89.140.13:8080
+      server-auto-config:
+        enabled: true
+        original-uri-check: true
   health:
     checks:
 #      data-source-health-check:
