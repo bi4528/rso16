@@ -15,6 +15,14 @@ kumuluzee:
 #      max-pool-size: 4
       pool:
        max-size: 4
+  dev:
+    scan-libraries:
+      - seznam-models
+      - seznam-services
+      - seznam-lib
+  openapi-mp:
+    ui:
+      specification-server: http://34.89.140.13:8080
   health:
     checks:
 #      data-source-health-check:
