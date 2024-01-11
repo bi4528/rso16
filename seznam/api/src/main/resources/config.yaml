@@ -47,10 +47,10 @@ kumuluzee:
                                       </Root>
                                   </Loggers>
                               </Configuration>'
-  rest-properties:
-    broken: false
   cors-filter:
     servlet:
       enabled: true
       allow-generic-http-requests: true
       allow-origin: "*"
+rest-properties:
+  broken: false
