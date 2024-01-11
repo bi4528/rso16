@@ -7,7 +7,6 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 @ApplicationScoped
 public class RestProperties {
 
-    @ConfigValue(watch = true)
     private Boolean broken;
 
     public Boolean getBroken() {
